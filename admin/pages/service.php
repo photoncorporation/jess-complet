@@ -451,7 +451,6 @@ $(spn).attr({
                         <div class="d-flex justify-content-around ">
                           <a href="update_service?id=${service.id}" class="btn btn-info"><i class="fas fa-edit"></i></a>
                           <a href="details_service?id=${service.id}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                          <button class="btn btn-danger" onclick="deleteService(${service.id})"><i class="fas fa-trash"></i></button>
                           <button type="button" id="desactiver" class="btn btn-success" onclick="desactiverCompte(${service.id})">
                           ${service.is_active ? `<i class="fas fa-user-check"></i>` :
                                `<i class="fas fa-user-times"></i>`}
@@ -461,6 +460,7 @@ $(spn).attr({
                       `
                     content.appendChild(tr)
                         // http://localhost/jess_admin/abonnement?id_service=${user.id}
+                        // <button class="btn btn-danger" onclick="deleteService(${service.id})"><i class="fas fa-trash"></i></button>
         })
         })
           
