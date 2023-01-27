@@ -87,7 +87,7 @@
     }
     function getCurrentUser() {
       let currentUser = JSON.parse(localStorage.getItem("_currentUser"));
-      if ((currentUser && currentUser.user.role == "admin" || currentUser.user.role == "admin") && currentUser.user.is_active) {
+      if ((currentUser && currentUser.user.role == "admin" || currentUser.user.role == "superadmin") && currentUser.user.is_active) {
         document.getElementById("current-user").innerHTML = currentUser.user.name || currentUser.user.email;
       } else {
         window.location.href = "login";
