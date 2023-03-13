@@ -430,7 +430,7 @@ const forum = (e) => {
   e.preventDefault();
   var data = JSON.stringify(formProps);
   console.log(data);
-  fetch("http://localhost:7000/api/v1/messages/:receiver_id", {
+  fetch("https://apis.jessapp.net/api/api/v1/messages/:receiver_id", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -683,7 +683,7 @@ const forum = (e) => {
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-    fetch(`http://localhost:7000/api/v1/auth/admins`,{
+    fetch(`https://apis.jessapp.net/api/api/v1/auth/admins`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -726,7 +726,7 @@ const forum = (e) => {
             receiver_id,
             sender_id
           }
-          fetch(`http://localhost:7000/api/v1/messages/${receiver_id}`,{
+          fetch(`https://apis.jessapp.net/api/api/v1/messages/${receiver_id}`,{
             method: "POST",
             headers: reqHeaders,
             body: JSON.stringify(data)
@@ -755,7 +755,7 @@ const forum = (e) => {
             receiver_id,
             sender_id
           }
-          fetch(`http://localhost:7000/api/v1/messages/${sender_id}/${receiver_id}`,{
+          fetch(`https://apis.jessapp.net/api/api/v1/messages/${sender_id}/${receiver_id}`,{
             method: "GET",
             headers: reqHeaders
           }).then(res => res.json())

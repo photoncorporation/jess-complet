@@ -337,7 +337,7 @@ $(spn).attr({
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
    
-  fetch("https://jess-backend.onrender.com/api/v1/abonnements/services/available", {
+  fetch("http://localhost:7000/api/v1/abonnements/services/available", {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -398,7 +398,7 @@ $(spn).attr({
      status: e.target.value
     }
     
-fetch(`https://jess-backend.onrender.com/api/v1/services/${id}/abonnement/status`, {
+fetch(`http://localhost:7000/api/v1/services/${id}/abonnement/status`, {
   method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
   mode: 'cors', // no-cors, *cors, same-origin
   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -430,7 +430,7 @@ function delete_abonnement(id){
     reqHeaders.append("Authorization",`Bearer ${saved_token.token}`)
     reqHeaders.append("Content-Type","application/json")
     
-  fetch(`https://jess-backend.onrender.com/api/v1/abonnements/services/available/${id}`, {
+  fetch(`http://localhost:7000/api/v1/abonnements/services/available/${id}`, {
     method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

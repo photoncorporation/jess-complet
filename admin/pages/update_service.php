@@ -351,7 +351,7 @@ $(spn).attr({
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
 
-  fetch("https://jess-backend.onrender.com/api/v1/service", {
+  fetch("http://localhost:7000/api/v1/service", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -394,7 +394,7 @@ $(spn).attr({
     let id = urlParams.get('id');
     console.log(id,"id");
   
-   fetch(`https://jess-backend.onrender.com/api/v1/services/${id}`,{
+   fetch(`http://localhost:7000/api/v1/services/${id}`,{
     headers: reqHeaders,
     method: "GET"
   }).then(response => response.json())
@@ -427,7 +427,7 @@ $(spn).attr({
       let id = urlParams.get('id');
       console.log(id,"id");
      // Send the updated information to the server  https://jess-backend.onrender.com/api/v1/auth/update
-      fetch(`https://jess-backend.onrender.com/api/v1/services/${id}`, {
+      fetch(`http://localhost:7000/api/v1/services/${id}`, {
         method: 'PATCH',
         headers: reqHeaders,
         body: data

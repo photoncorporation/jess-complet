@@ -112,7 +112,7 @@ details[open] summary ~ * {
         <div class="col-md-9">
             <div class="card">
               <div class="card-header">
-                <a href="index.php" class="small-box-footer" style="color:#18345D;"><i class="fas fa-arrow-circle-left"></i> Retour</a>
+                <a href="home" class="small-box-footer" style="color:#18345D;"><i class="fas fa-arrow-circle-left"></i> Retour</a>
                <label class="col-form-label" for="inputWarning" style="float: right;">Choisir une assistance</label> 
               </div>
               <!-- /.card-header -->
@@ -396,7 +396,7 @@ details[open] summary ~ * {
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-    fetch(`https://jess-backend.onrender.com/api/v1/services`,{
+    fetch(`http://localhost:7000/api/v1/services`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -432,7 +432,7 @@ details[open] summary ~ * {
         description_service: description,
     }
 
-    fetch(`https://jess-backend.onrender.com/api/v1/services/${id}/demande`,{
+    fetch(`http://localhost:7000/api/v1/services/${id}/demande`,{
         method: "POST",
         headers: reqHeaders,
         body: JSON.stringify(data)

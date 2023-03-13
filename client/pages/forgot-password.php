@@ -78,7 +78,7 @@ const resetpassword = (e) => {
   e.preventDefault();
   var data = JSON.stringify(formProps);
 
-  fetch("https://jess-backend.onrender.com/api/v1/auth/password-reset", {
+  fetch("http://localhost:7000/api/v1/auth/password-reset", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

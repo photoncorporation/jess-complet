@@ -4,6 +4,7 @@ if(isset($_GET['url']))
 {
   $url=explode('/', $_GET['url']);
 }
+
 if($url== '')
 {
   require 'pages/home.php';
@@ -26,6 +27,10 @@ else if ($url[0]== 'update_service')
 else if ($url[0]== 'details_service')
 {
   require 'admin/pages/details_service.php';
+}
+else if ($url[0]== 'client_details_service')
+{
+  require 'client/pages/details_service.php';
 }
 else if ($url[0]== 'forum_maint')
 {
@@ -58,6 +63,10 @@ else if ($url[0]== 'user')
 else if ($url[0]== 'user-profile') 
 {
   require 'client/pages/user.php';
+}
+else if ($url[0]== 'admin-profile') 
+{
+  require 'admin/pages/profil.php';
 }
 else if ($url[0]== 'abonnement')
 {

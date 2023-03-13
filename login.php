@@ -98,8 +98,8 @@ const login = (e) => {
 
   e.preventDefault();
   var data = JSON.stringify(formProps);
-
-  fetch("https://jess-backend.onrender.com/api/v1/auth/login", {
+//https://apis.jessapp.net/api/api/v1/auth/login
+  fetch("http://localhost:7000/api/v1/auth/login", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -117,14 +117,14 @@ const login = (e) => {
       if(res2.hasOwnProperty("token")){
         setCookie('token', res2 && res2['token'] ,7);
         $('#loader-spn').remove();
-        console.log(res2.user.role === "user")
-        if(res2.user.role === "admin"){
+        console.log(res2.user && (res2.user.role === "admin" || res2.user.role === "superadmin"))
+        if(res2.user && (res2.user.role === "admin" || res2.user.role === "superadmin")){
           window.location.replace("admin-dashborad");
         }else{
           window.location.replace("home");
         }
         window.localStorage.setItem("_currentUser", JSON.stringify(res2))
-        // window.location.replace("./home");
+       
       }else{
         $('#loader-spn').remove()
         $("#err_msg").html(ele)
@@ -166,7 +166,7 @@ const login = (e) => {
       redirect: 'follow'
     };
 
-    fetch("https://jess-backend.onrender.com/api/v1/auth/login", requestOptions)
+    fetch("https://apis.jessapp.net/api/api/v1/auth/login", requestOptions)
       .then(response => response.text())
       .then((result)=>{
 

@@ -343,9 +343,7 @@
             <div class="card">
               <div class="card-header">
                 <a href="index.php" class="small-box-footer" style="color:#18345D;"><i class="fas fa-arrow-circle-left"></i> Retour</a>
-                <div class="card-tools">
-                  <h5 style="color:black; font-weight:bold;"><i class="fas fa-list-alt" style="color:#18345D; font-size:15px;"></i><span style="color:#18345D;">  Historiques</span></h5>                
-                </div>
+               
               </div>
               <div class="card-body">
                 <div class="row">
@@ -370,8 +368,8 @@
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                                 </a>
                                                 <div class="chat-about">
-                                                    <h6 class="m-b-0">Aiden Chavez</h6>
-                                                    <small>Last seen: 2 hours ago</small>
+                                                    <h6 class="m-b-0" id="pseudo"></h6>
+                                                    <small id="email"></small>
                                                 </div>
                                             </div>
                                       
@@ -384,10 +382,10 @@
                                     <div class="chat-message clearfix">
                                         <form action="" method="post" onsubmit="sendMessage(event)">
                                           <div class="input-group mb-0">
+                                              <input type="text" class="form-control" name="contenu" id="contenu" placeholder="Enter text here...">   
                                               <button type="submit" class="input-group-prepend border-0">
                                                   <span class="input-group-text"><i class="fa fa-send"></i></span>
-                                              </button>
-                                              <input type="text" class="form-control" name="contenu" id="contenu" placeholder="Enter text here...">                                    
+                                              </button>                                 
                                           </div>
                                         </form>    
                                     </div>
@@ -443,7 +441,9 @@
 <!-- jQuery Knob Chart -->
 <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-<script src="plugins/moment/moment.min.js"></script>
+<!-- <script src="plugins/moment/moment.min.js"></script> -->
+<script src="plugins/moment/moment-with-locales.min.js"></script>
+
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
@@ -648,7 +648,7 @@
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-    fetch(`https://jess-backend.onrender.com/api/v1/auth/users`,{
+    fetch(`http://localhost:7000/api/v1/auth/users`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -657,12 +657,13 @@
         const content = document.getElementById("list-content")
 
         if(data.status === "success"){
+            console.log("check the length",data.users.length)
               data.users.forEach(admin =>{
                 content.innerHTML += ` 
                             <li class="clearfix" onclick="set_url(${admin.id})">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                                 <div class="about">
-                                    <div class="name">${admin.name}</div>
+                                    <div class="name">${admin.name || admin.email}</div>
                                     <div class="status"> <i class="fa fa-circle online"></i> online </div>
                                 </div>
                             </li>
@@ -691,7 +692,7 @@
             receiver_id,
             sender_id
           }
-          fetch(`https://jess-backend.onrender.com/api/v1/messages/${receiver_id}`,{
+          fetch(`http://localhost:7000/api/v1/messages/${receiver_id}`,{
             method: "POST",
             headers: reqHeaders,
             body: JSON.stringify(data)
@@ -706,18 +707,17 @@
           })
         }
 
-
         function getMessages(){
           const receiver_id = new URLSearchParams(window.location.search).get('receiver_id')
-          const sender_id = JSON.parse(localStorage.getItem("_currentUser")).user.id
+          const sender_id = JSON.parse(localStorage.getItem("_currentUser")).user.id.toString()
 
-          console.log(parseInt(receiver_id),"receiver_id",sender_id,"sender_id")
+          console.log(receiver_id,"receiver_id",sender_id,"sender_id")
           const reqHeaders = new Headers();
           const saved_token = JSON.parse(localStorage.getItem("_currentUser"))     
           reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
           reqHeaders.append("Content-Type","application/json")
           
-          fetch(`https://jess-backend.onrender.com/api/v1/messages/${sender_id}/${parseInt(receiver_id)}`,{
+          fetch(`http://localhost:7000/api/v1/messages/${sender_id}/${receiver_id}`,{
             method: "GET",
             headers: reqHeaders
           }).then(res => res.json())
@@ -738,7 +738,10 @@
                     content.innerHTML += ` 
                     <div class="message-data">
                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                      <span class="message-data-time">${message.createdAt}</span>
+                      <div class="d-flex flex-column">
+                        <span class="message-data-time">${messag?.sender?.pseudo || messag?.sender?.name}</span>
+                        <span class="message-data-time">${moment(messag.createdAt).locale('fr').format('LLL')}</span>
+                      </div>
                     </div>
 
                     <div class="message my-message bg-message-card float-right" id="user-id">
@@ -749,12 +752,18 @@
                     content.innerHTML += ` 
                     <div class="message-data d-flex justify-content-end">
                      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                     <span class="message-data-time">${message.createdAt}</span>
+                     <div class="d-flex flex-column">
+                        <span class="message-data-time">${messag?.sender?.pseudo || messag?.sender?.name}</span>
+                        <span class="message-data-time">${moment(messag.createdAt).locale('fr').format('LLL')}</span>
+                      </div>
                    </div>
 
                     <div class="message other-message bg-message-card float-left" id="user-id">
                         ${messag.contenu}
                     </div>`
+                    
+
+                    
                   }
                 
                 });
@@ -780,9 +789,17 @@
           window.location.reload()
         }
 
+        function get_current_user(){
+          const user = JSON.parse(localStorage.getItem("_currentUser"))
+          document.getElementById("email").innerHTML = user.user.email
+         document.getElementById("pseudo").innerHTML = user.user.name || user.user.pseudo
+        }
+
        window.addEventListener("DOMContentLoaded",()=>{
         getAdmins()
-        getMessages()})
+        getMessages()
+        get_current_user()
+        })
 </script>
 </body>
 </html>

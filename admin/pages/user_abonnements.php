@@ -318,7 +318,7 @@ function service_details(){
   let id = urlParams.get('user_id');
   console.log(id,"id");
 
-    fetch(`https://jess-backend.onrender.com/api/v1/abonnements/services/available/${id}`,{
+    fetch(`http://localhost:7000/api/v1/abonnements/services/available/${id}`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -350,19 +350,16 @@ function service_details(){
                             <b>Description du service</b> <a class="float-right">${abonnement.Service.description}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Date du debut</b> <a class="float-right">${abonnement.date_debut}</a>
+                            <b>Date du debut</b> <a class="float-right">${abonnement.start_date}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Date de fin du service</b> <a class="float-right">${abonnement.date_fin}</a>
+                            <b>Date de fin du service</b> <a class="float-right">${abonnement.end_date}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Type du compte</b> <a class="float-right">${abonnement.User.type}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Etat</b> <a class="float-right">${abonnement.etat}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Numero</b> <a class="float-right">${abonnement.numero}</a>
                         </li>
                         <li class="list-group-item">
                             <b>ServiceID</b> <a class="float-right">${abonnement.id_service}</a>

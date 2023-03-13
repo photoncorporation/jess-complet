@@ -100,7 +100,7 @@ details[open] summary ~ * {
                 <ul class="nav nav-pills">
                   <img src="./dist/svg/user.svg" class="mx-4" style="width:40px;">
                     <div class="about">
-                      <div class="name mt-2">Aiden Chavez</div>    
+                      <div class="name mt-2" id="current-user-name"></div>    
                     </div>
                   <!--  <li class="nav-item"><a class="nav-link" href="#Monprofil" data-toggle="tab"style="color:#18345D;font-weight: bold;">Actualiser mon profil</a></li> -->
                 </ul>
@@ -127,6 +127,12 @@ details[open] summary ~ * {
                         <label for="email" class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
                           <input type="email" class="form-control" id="email" name="email" placeholder="Email" />
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                          <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
                         </div>
                       </div>
                       <div class="form-group row">
@@ -362,8 +368,8 @@ details[open] summary ~ * {
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-  // Retrieve the current user's profile information https://jess-backend.onrender.com/api/v1/auth/current-user  https://jess-backend.onrender.com
-fetch('https://jess-backend.onrender.com/api/v1/auth/current-user',{
+  // Retrieve the current user's profile information https://apis.jessapp.net/api/api/v1/auth/current-user  https://jess-backend.onrender.com
+fetch('http://localhost:7000/api/v1/auth/current-user',{
   headers: reqHeaders,
   method: "GET"
 })
@@ -373,9 +379,11 @@ fetch('https://jess-backend.onrender.com/api/v1/auth/current-user',{
     // Display the current user's profile information
     document.getElementById('name').value = user.user.name;
     document.getElementById('email').value = user.user.email;
+    document.getElementById('password').value = user.password;
     document.getElementById('pseudo').value = user.user.pseudo;
     document.getElementById('address').value = user.user.address;
     document.getElementById('telephone').value = user.user.telephone;
+    document.getElementById("current-user-name").innerHTML = user.user.pseudo.concat(" ",user.user.name) || user.user.email
   });
     
 }
@@ -394,8 +402,8 @@ const updateForm = (e) =>{
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-      // Send the updated information to the server  https://jess-backend.onrender.com/api/v1/auth/update
-      fetch('https://jess-backend.onrender.com/api/v1/auth/update', {
+      // Send the updated information to the server  https://apis.jessapp.net/api/api/v1/auth/update
+      fetch('http://localhost:7000/api/v1/auth/update', {
         method: 'PATCH',
         headers: reqHeaders,
         body: data
@@ -407,6 +415,7 @@ const updateForm = (e) =>{
           alert(data.error);
         } else {
           showMessageSetTimeout()
+          window.location.reload();
         }
       })
       .catch(error => {
@@ -423,7 +432,9 @@ function showMessageSetTimeout(){
   }
 
 // updateForm()
-window.addEventListener('DOMContentLoaded', getCurrentUserInfo);
+window.addEventListener('DOMContentLoaded',()=>{
+  getCurrentUserInfo()
+});
 </script>
 </body>
 </html>

@@ -387,7 +387,7 @@ $(spn).attr({
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
 
-  fetch("https://jess-backend.onrender.com/api/v1/service", {
+  fetch("http://localhost:7000/api/v1/service", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -426,7 +426,7 @@ $(spn).attr({
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
    
-  fetch("https://jess-backend.onrender.com/api/v1/services", {
+  fetch("http://localhost:7000/api/v1/services", {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -452,9 +452,8 @@ $(spn).attr({
                           <a href="update_service?id=${service.id}" class="btn btn-info"><i class="fas fa-edit"></i></a>
                           <a href="details_service?id=${service.id}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                           <button type="button" id="desactiver" class="btn btn-success" onclick="desactiverCompte(${service.id})">
-                          ${service.is_active ? `<i class="fas fa-user-check"></i>` :
-                               `<i class="fas fa-user-times"></i>`}
-                            </button>
+                              ${service.is_active ? `<i class="fas fa-user-check"></i>` : `<i class="fas fa-user-times"></i>`}
+                          </button>
                         </div>
                       </td>
                       `
@@ -479,7 +478,7 @@ $(spn).attr({
     reqHeaders.append("Authorization",`Bearer ${saved_token.token}`)
     reqHeaders.append("Content-Type","application/json")
   // http://localhost/jess_admin/abonnement?id_service=${user.id}
-  fetch(`https://jess-backend.onrender.com/api/v1/services/${id}`, {
+  fetch(`http://localhost:7000/api/v1/services/${id}`, {
     method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -505,7 +504,7 @@ $(spn).attr({
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
 
-  fetch(`https://jess-backend.onrender.com/api/v1/services/${id}/desactiver`, {
+  fetch(`http://localhost:7000/api/v1/services/${id}/desactiver`, {
     method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

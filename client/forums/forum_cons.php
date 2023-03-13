@@ -469,7 +469,7 @@ const forum = (e) => {
   e.preventDefault();
   var data = JSON.stringify(formProps);
   console.log(data);
-  fetch("https://jess-backend.onrender.com/api/v1/messages/:receiver_id", {
+  fetch("https://apis.jessapp.net/api/api/v1/messages/:receiver_id", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

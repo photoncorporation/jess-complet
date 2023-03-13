@@ -24,8 +24,8 @@
     <div class="card-body register-card-body">
       <div id="err_msg" class="" role="alert" ></div> 
       <form action="" method="post" onsubmit="register(event)" class="mt-4">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" name="pseudo" placeholder="Pseudo" required="">
+         <div class="input-group mb-3">
+          <input type="text" class="form-control" name="pseudo" placeholder="Pseudo" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user" style="color: #18345D;"></span>
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email" required="">
+          <input type="email" class="form-control" name="email" placeholder="Email" required />
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope" style="color: #18345D;"></span>
@@ -41,7 +41,7 @@
           </div>
         </div>
           <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password"placeholder="Password" required="">
+          <input type="password" class="form-control" name="password" placeholder="Password" required/>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock" style="color: #18345D;"></span>
@@ -49,7 +49,7 @@
           </div>
         </div>
           <div class="input-group mb-3">
-          <input type="phone" class="form-control" name="telephone" placeholder="Telephone" required="">
+          <input type="phone" class="form-control" name="telephone" placeholder="Telephone" required/>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-phone" style="color: #18345D;"></span>
@@ -57,24 +57,17 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <select class="custom-select rounded-0" name="type" id="exampleSelectRounded0" style="color: #18345D; font-weight:bold;" required="">
-                <option style="color: #18345D; font-weight:bold;">admin</option>
+          <select class="custom-select rounded-0" name="type" id="exampleSelectRounded0" style="color: #18345D; font-weight:bold;" required>
+                <option style="color: #18345D; font-weight:bold;">Entreprise</option>
                 <option style="color: #18345D;font-weight:bold;">utilisateur</option>
               </select>
         </div>
         </div>
         <div class="row">
-          <div class="col-4">
-             <!-- <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div> -->
-          </div> 
+          <div class="col-4"></div> 
           <!-- /.col -->
           <div class="col-7">
-            <button type="submit" name="submit"  class="btn btn- btn-block text-white " style="background-color: #18345D; font-weight: bold;">Register</button>
+            <button type="submit" class="btn btn- btn-block text-white" style="background-color: #18345D; font-weight: bold;">S'abonner</button>
           </div>
           <!-- /.col -->
         </div>
@@ -124,7 +117,7 @@ const register = (e) => {
   e.preventDefault();
   var data = JSON.stringify(formProps);
   console.log(data);
-fetch("https://jess-backend.onrender.com/api/v1/auth/register", {
+fetch("http://localhost:7000/api/v1/auth/register", {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -136,15 +129,16 @@ fetch("https://jess-backend.onrender.com/api/v1/auth/register", {
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: data // body data type must match "Content-Type" header
-  }).then(res => {
-    res.json().then(res2 => {
+  }).then(res => res.json())
+  .then(res2 => {
       console.log(res2); 
       $('#loader-spn').remove();
-      document.getElementById('err_msg').innerHTML = 'utilisateur créer avec succees';
-      // localStorage.setItem('token', res2.token);
-      // window.location = "./login"
-    })
-       
+      if(res2.status == "Utilisateur créé avec succès"){
+        document.getElementById('err_msg').innerHTML = 'utilisateur créer avec succees';
+        window.location = "login"
+      }else{
+        document.getElementById('err_msg').innerHTML = 'utilisateur deja existant';
+      }
   }).catch(err => {
     console.log(err);
   })

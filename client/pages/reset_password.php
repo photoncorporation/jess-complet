@@ -66,7 +66,7 @@ const newpassword = (e) => {
   const user_id = new URLSearchParams(window.location.search).get('user_id')
   const token = new URLSearchParams(window.location.search).get('token')
   
-fetch(`https://jess-backend.onrender.com/api/v1/auth/password-reset/${user_id}/${token}`, {
+fetch(`http://localhost:7000/api/v1/auth/password-reset/${user_id}/${token}`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

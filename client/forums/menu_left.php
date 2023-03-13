@@ -88,8 +88,8 @@
     function getCurrentUser() {
       let currentUser = JSON.parse(localStorage.getItem("_currentUser"));
       console.log(currentUser,"local user");
-      if (currentUser && (currentUser.user.role === "admin" || currentUser.user.role == "superadmin")) {
-        document.getElementById("current-user").innerHTML = currentUser.user.name || currentUser.user.email;
+      if (currentUser && currentUser.user.role === "user" && currentUser.user.is_active) {
+        document.getElementById("current-user").textContent = currentUser.user.pseudo || currentUser.user.email;
       } else {
         window.location.href = "login";
       }

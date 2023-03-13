@@ -12,7 +12,7 @@
             method : 'GET',
             headers : reqHeaders,
           }
-          fetch("https://jess-backend.onrender.com/api/v1/auth/users",reqOptions) //renseigne toi sur le lien pour recuperer les informations d'un utlisateur donne par son token
+          fetch("http://localhost:7000/api/v1/auth/users",reqOptions) //renseigne toi sur le lien pour recuperer les informations d'un utlisateur donne par son token
           .then(res=>reponse = res.json())
           .then(result=>{
             // result['name'] = 'Eze Josue Jess' //ligne a supprimer apres comprehension
@@ -153,6 +153,7 @@ const displayAllBtn = document.getElementById("display-all-btn");
 displayAllBtn.addEventListener("click", () => {
     displayAllClicked = !displayAllClicked;
     services()
+    window.location.reload();
 });
 
 
@@ -163,7 +164,7 @@ function services(){
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-    fetch(`https://jess-backend.onrender.com/api/v1/services`,{
+    fetch(`http://localhost:7000/api/v1/services`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -189,17 +190,24 @@ function services(){
               <span class="info-box-icon "><i class="fas fa-tools" style="color:#18345D;"></i></span>
               <div class="info-box-content">
                 <p class="small-box-footer" style="font-weight:bold;font-family: Arial;">${service.name}</p>
-                 <a href="forum_maint?id_service=${service.id}" class="small-box-footer" style="color:#18345D; font-size:15px;">Contactez-nous pour la maintenance et la reparation des vos installations electriques et équipements electroniques</a>
+                 <a href="forum_maint?id_service=${service.id}" class="small-box-footer" style="color:#18345D; font-size:15px;">${service.description}</a>
                  <div style="display:inline;">
-                  <span><a onclick="like(event,${service.id})" class="btn" style="font-size: 30px; width: 150px;">
-                    <i class="far fa-heart" title="notification" style="color:#18345D"></i>
-                   <span class="badge badge-warning navbar-badge"style="background-color:#18345D;color: white;font-weight: bold;" id="like-count">${service.likes}</span></a></span>
-                  <span><a href="#" class="btn mdc" style="font-size: 30px; width: 150px;">
+                  <span onclick="like(event,${service.id})">
+                    <a class="btn" style="font-size: 30px; width: 150px;">
+                      <i class="far fa-heart" title="notification" style="color:#18345D"></i>
+                      <span class="badge badge-warning navbar-badge"style="background-color:#18345D;color: white;font-weight: bold;" id="like-count">${service.likes}</span>
+                    </a>
+                  </span>
+                  <span>
+                    <a href="forum_maint?id_service=${service.id}" class="btn mdc" style="font-size: 30px; width: 150px;">
                     <i class="far fa-comments" title="notification" style="color:#18345D"></i>
-                   <span class="badge badge-warning navbar-badge" style="background-color:red;color: white;font-weight: bold;">${service.commentsCount}</span></a></span>
+                    <span class="badge badge-warning navbar-badge" style="background-color:red;color: white;font-weight: bold;">${service.commentsCount}</span></a>
+                  </span>
               </div>
               </div>
-              <a href="#" class="small-box-footer" style="color:#18345D;">Plus... <i class="fas fa-arrow-circle-right"></i></a>
+              <span class="small-box-footer" style="color:#18345D;">
+                <a href="client_details_service?id=${service.id}">Plus... <span><i class="fas fa-arrow-circle-right"></i></span></a>
+              </span>
             </div>
             `;
             content.appendChild(ele1);
@@ -216,7 +224,7 @@ function services(){
     reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
     reqHeaders.append("Content-Type","application/json")
 
-  fetch(`https://jess-backend.onrender.com/api/v1/services/${id}/like`,{
+  fetch(`http://localhost:7000/api/v1/services/${id}/like`,{
       method: "POST",
       headers: reqHeaders,
   }).then(res => res.json())
@@ -241,7 +249,7 @@ function getLikes(){
     reqHeaders.append("Content-Type","application/json")
     const id = new URLSearchParams(window.location.search).get('service_id')
 
-  fetch(`https://jess-backend.onrender.com/api/v1/services/${id}/likes`,{
+  fetch(`http://localhost:7000/api/v1/services/${id}/likes`,{
       method: "GET",
       headers: reqHeaders,
   }).then(res => res.json())

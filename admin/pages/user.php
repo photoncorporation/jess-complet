@@ -397,7 +397,7 @@ details[open] summary ~ * {
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
    
-  fetch("https://jess-backend.onrender.com/api/v1/auth/users", {
+  fetch("http://localhost:7000/api/v1/auth/users_all", {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -425,7 +425,7 @@ details[open] summary ~ * {
                               `<i class="fas fa-user-check text-lg text-success"></i>` : 
                               `<i class="fas fa-user-times text-danger text-lg"></i>`}
                             </button>
-                            <a href="notifications?receiver_id=${user.id}" class="btn btn-danger"><i class="fas fa-envelope"></i></a>
+                            ${user.role === "user" ? `<a href="notifications?receiver_id=${user.id}" class="btn btn-danger"><i class="fas fa-envelope"></i></a>`: ""}
                             <a href="user_details?id=${user.id}" class="btn btn-primary"><i class="fas fa-eye"></i></a>
                           </div>
                           </td>                  
@@ -446,7 +446,7 @@ details[open] summary ~ * {
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
 
-  fetch(`https://jess-backend.onrender.com/api/v1/auth/users/${id}/desactiver`, {
+  fetch(`http://localhost:7000/api/v1/auth/users_all/${id}/desactiver`, {
     method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -456,7 +456,7 @@ details[open] summary ~ * {
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   }).then(res => {
     res.json().then(res2 => {
-      showMessageSetTimeout()
+      // showMessageSetTimeout()
       console.log(res2,"reponse users"); 
       
       window.location.reload()

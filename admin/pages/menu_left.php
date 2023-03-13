@@ -37,6 +37,12 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="admin-profile" class="nav-link">
+                  <i class="fa fa-user"style="color: white;"></i>  
+                  <p style="margin-left:10px;color:white;">Profile</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="user" class="nav-link">
                   <i class="fas fa-users"style="color: white;"></i>  
                   <p style="margin-left:10px;color:white;">Utilisateurs</p>

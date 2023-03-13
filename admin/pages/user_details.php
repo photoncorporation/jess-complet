@@ -312,17 +312,17 @@ $(spn).attr({
 })
 
 function service_details(){
-  var reqHeaders = new Headers();
-  var saved_token = JSON.parse(localStorage.getItem("_currentUser"))
-  console.log(saved_token.token,"saved toke")
-  reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
+  const reqHeaders = new Headers();
+  const user = JSON.parse(localStorage.getItem("_currentUser"))
+  console.log(user.role,"saved toke")
+  reqHeaders.append("Authorization",`Bearer ${user.token}`) 
   reqHeaders.append("Content-Type","application/json")
   
   const urlParams = new URLSearchParams(window.location.search);
   let id = urlParams.get('id');
   console.log(id,"id");
 
-    fetch(`https://jess-backend.onrender.com/api/v1/auth/users/${id}`,{
+    fetch(`http://localhost:7000/api/v1/auth/users_all/${id}`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -343,7 +343,11 @@ function service_details(){
         // actions.innerHTML = elements;
         
         if(data.status == "success"){
-            console.log(data.users,"data")
+         console.log(data.users.role, data.users.role !== "user", "do we have role")
+          if(data.users.role !== "user"){
+            actions.classList.remove("d-flex")
+            actions.classList.add("d-none")
+          }
             const ele1 = document.createElement("div");
 
             ele1.innerHTML = `
@@ -356,9 +360,28 @@ function service_details(){
                         <li class="list-group-item">
                             <b>Nom</b> <a class="float-right">${data.users.name}</a>
                         </li>
-                        <li class="list-group-item">
+                      
+                        ${user.user.role === "superadmin" ? `
+                        <form class="form-horizontal" style="display:flex; justify-content:space-between; align-items:center;" action="" method="PATCH"  onsubmit="updateEmail(event)" >
+                          <div class="form-group row col-sm-10">
+                            <label for="email" class="col-sm-10" col-form-label">Email</label>
+                            <div class="col-sm-10">
+                              <input type="email" name="email" value="${data.users.email}" class="form-control" id="email" placeholder="Email" required />
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <div class="offset-sm-2 col-sm-10">
+                              <button type="submit" class="btn btn-" style="background-color: #18345D; color:white;">Actualiser</button>
+                            </div>
+                          </div>
+                        </form>
+                        `: 
+                        `<li class="list-group-item">
                             <b>Email</b> <a class="float-right">${data.users.email}</a>
                         </li>
+                            `
+                          } 
+
                         <li class="list-group-item">
                             <b>Telephone</b> <a class="float-right">${data.users.telephone}</a>
                         </li>
@@ -371,9 +394,22 @@ function service_details(){
                         <li class="list-group-item">
                             <b>Pseudo</b> <a class="float-right">${data.users.pseudo}</a>
                         </li>
-                        <li class="list-group-item">
-                            <b>Role</b> <a class="float-right">${data.users.role}</a>
-                        </li>
+                        
+                        ${user.user.role === "superadmin" ? `
+
+                          <span class="d-flex justify-content-between gap-x-5 items-center">
+                          <p><b>Role</b></p>
+                          </span>
+                          <select class="form-control" id="myRole" value="${data.users.role}" onchange="change_role()" name="role">
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>` : `<li class="list-group-item">
+                          <b>Role</b> <a class="float-right">${data.users.role}</a>
+                          </li>
+                        `
+                        } 
+                       
+                                 
                         <li class="list-group-item">
                             <b>Actif</b> <a class="float-right">${data.users.is_active}</a>
                         </li>
@@ -385,23 +421,6 @@ function service_details(){
         // content.appendChild(ele1)
     })
 }
-
-// function setIdToURL(e){
-//     e.preventDefault()
-//     const li = document.getElementById("action")
-//     const a = document.getElementById("abonnement")
-//     const urlParams = new URLSearchParams(window.location.search);
-//     let user_id = urlParams.get('id');
-//     a.setAttribute("href",`user_services?user_id=${user_id}`)
-//     a.setAttribute("class","nav-link bg-gradient-success text-white mr-4")
-//     a.setAttribute("data-toggle","tab")
-//     a.innerHTML = "Demandes Abonnement"
-//     li.appendChild(a)
-//     const searchParams = new URLSearchParams(window.location.search);
-//     searchParams.set('user_id', user_id);
-//     console.log(window.location.pathname, "mmmmmm", searchParams.toString())
-//     window.history.replaceState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
-// }
  
 
 function setIdToURL(e){
@@ -425,6 +444,82 @@ function setIdToURL2(e){
     li.appendChild(a)
     window.history.replaceState({}, '', `${window.location.pathname}?${searchParams.toString()}`);
 }
+
+function change_role(){
+  var reqHeaders = new Headers();
+  var saved_token = JSON.parse(localStorage.getItem("_currentUser"))
+  console.log(saved_token.token,"saved toke")
+  reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
+  reqHeaders.append("Content-Type","application/json")
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+  const select = document.getElementById("myRole")
+  select.addEventListener("change",function(){
+    fetch(`http://localhost:7000/api/v1/auth/users_all/${id}`,{
+        method: "PATCH",
+        headers: reqHeaders,
+        body: JSON.stringify({
+            role: select.value
+        })
+    }).then(res => res.json())
+    .then(data => {
+      console.log(data,"check if data is changed")
+        if(data.status === "success"){
+            select.value = data.user.role
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+  })
+}
+
+
+function updateEmail(e){
+      e.preventDefault();
+
+      var reqHeaders = new Headers();
+      var saved_token = JSON.parse(localStorage.getItem("_currentUser"))
+      console.log(saved_token.token,"saved toke")
+      reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
+      reqHeaders.append("Content-Type","application/json")
+
+      const formData = new FormData(e.target);
+      const formProps = Object.fromEntries(formData);
+      console.log(formProps);
+     
+      var data = JSON.stringify(formProps);
+
+      const urlParams = new URLSearchParams(window.location.search);
+      let id = urlParams.get('id');
+      console.log(id,"id");
+     // Send the updated information to the server  https://jess-backend.onrender.com/api/v1/auth/update
+      fetch(`http://localhost:7000/api/v1/auth/users_all/${id}/email`, {
+        method: 'PATCH',
+        headers: reqHeaders,
+        body: data
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          console.log("email updated")
+          window.location.reload();
+        } else {
+          // Inform the user of the failure
+          console.log('Email update failed');
+        }
+      })
+      .catch(error => {
+        // Inform the user of the failure
+        console.log('Profile update failed');
+      });
+  }
+
+// && `<select class="form-control" id="myRole" value="${data.users.role}" onchange="change_role()" name="role">
+//                                 <option value="admin">Admin</option>
+//                                 <option value="user">User</option>
+//                             </select>`
+
 
 window.addEventListener('DOMContentLoaded', service_details)
 </script>

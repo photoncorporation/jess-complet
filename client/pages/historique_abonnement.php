@@ -116,9 +116,9 @@ details[open] summary ~ * {
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <div class="row">
+            <!--<div class="row">-->
                  <div class="card card-primary card-outline">
-          <div class="card-header">
+            <div class="card-header">
           </div>
           <div class="card-body">
             <h4 style="font-weight: bold;color:#18345D;"><i class="fa fa-archive"style="font-weight: bold;color:rgb(255,0,102);"></i> Historiques</h4>
@@ -165,7 +165,7 @@ details[open] summary ~ * {
             </div>
             </div>
           </div>
-          </div>
+          <!--</div>-->
         </div>
       </div>
     </section>
@@ -202,7 +202,7 @@ details[open] summary ~ * {
 <!-- jQuery Knob Chart -->
 <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/moment/moment-with-locales.min.js"></script>
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
@@ -411,7 +411,7 @@ details[open] summary ~ * {
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-    fetch(`https://jess-backend.onrender.com/api/v1/abonnements/services`,{
+    fetch(`http://localhost:7000/api/v1/abonnements/services`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -425,14 +425,14 @@ details[open] summary ~ * {
                 const ele1 = document.createElement("div");
                 ele1.className = "post";
             ele1.innerHTML = `
-                      <div class="username" style="color:#18345D; font-weight: bold;">${abonnement.createdAt} | ${abonnement.Service.name}</div>
+                      <div class="username" style="color:#18345D; font-weight: bold;">${moment(abonnement.createdAt).locale('fr').format('LLL')} | ${abonnement.Service.name}</div>
                       <p style="color:black;">
                       ${abonnement.description_service}
                       </p>
 
                       <p>
-                        <a class="link-black text-sm" style="color:#18345D;"><i class="fas fa-clock mr-1" style="color:#18345D;"></i> ${abonnement.start_date}</a> - <a class="link-black text-sm" style="color:#18345D;"><i class="fas fa-clock mr-1" style="color:#18345D;"></i> ${abonnement.end_date} </a>
-                        <div class="username" style="color:red;">${abonnement.status}</div>
+                        <a class="link-black text-sm" style="color:#18345D;"><i class="fas fa-clock mr-1" style="color:#18345D;"></i>${moment(abonnement.start_date).locale('fr').format('LLL')}</a> - <a class="link-black text-sm" style="color:#18345D;"><i class="fas fa-clock mr-1" style="color:#18345D;"></i> ${moment(abonnement.end_date).locale('fr').format('LLL')} </a>
+                        <div class="username" style="color:red;">${abonnement.etat}</div>
                       </p>
             `;
             content.appendChild(ele1);
@@ -448,7 +448,7 @@ details[open] summary ~ * {
       reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
       reqHeaders.append("Content-Type","application/json")
 
-    fetch(`https://jess-backend.onrender.com/api/v1/demandes/services`,{
+    fetch(`http://localhost:7000/api/v1/demandes/services`,{
         method: "GET",
         headers: reqHeaders
     }).then(res => res.json())
@@ -462,13 +462,13 @@ details[open] summary ~ * {
                 const ele1 = document.createElement("div");
                 ele1.className = "post";
             ele1.innerHTML = `
-                      <div class="username" style="color:#18345D; font-weight: bold;">${abonnement.createdAt} | ${abonnement.Service.name}</div>
+                      <div class="username" style="color:#18345D; font-weight: bold;">${moment(abonnement.createdAt).locale('fr').format('LLL')} | ${abonnement.Service.name}</div>
                       <p style="color:black;">
                       ${abonnement.description_service}
                       </p>
 
                       <p>
-                        <div class="username" style="color:red;">${abonnement.status}</div>
+                        <div class="username" style="color:red;">${abonnement.etat}</div>
                       </p>
             `;
             content.appendChild(ele1);

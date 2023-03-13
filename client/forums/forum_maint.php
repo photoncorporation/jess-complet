@@ -344,11 +344,10 @@
         
            <div class="col-lg-12">
             <div class="card">
-              <div class="card-header">
-                <a href="index.php" class="small-box-footer" style="color:#18345D;"><i class="fas fa-arrow-circle-left"></i> Retour</a>
-                <div class="card-tools">
-                  <h5 style="color:black; font-weight:bold;"><i class="fas fa-list-alt" style="color:#18345D; font-size:15px;"></i><span style="color:#18345D;">  Historiques</span></h5>                
-                </div>
+              <div class="" id="comment-info">
+                  <!-- adding comment to the service -->
+                 
+                 <!-- adding comment to the service -->
               </div>
               <div class="card-body">
                 <div class="row">
@@ -357,14 +356,14 @@
                     <div class="row clearfix">
                         <div class="col-lg-12">
                             <div class="card chat-app">
-                               <div id="plist" class="people-list">
+                               <!-- <div id="plist" class="people-list">
                                   <div class="input-group">
                                     <i class="fa fa-users"></i> <span class="mx-4">all</span>
                                   </div>
                                   <hr>
                                   <ul class="list-unstyled chat-list mt-2 mb-0" id="list-content">
                                   </ul>
-                              </div>
+                              </div> -->
                                 <div class="chat">
                                     <div class="chat-header clearfix">
                                         <div class="row">
@@ -373,8 +372,8 @@
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
                                                 </a>
                                                 <div class="chat-about">
-                                                    <h6 class="m-b-0">Aiden Chavez</h6>
-                                                    <small>Last seen: 2 hours ago</small>
+                                                    <h6 class="m-b-0" id="pseudo"></h6>
+                                                    <small id="email"></small>
                                                 </div>
                                             </div>
                                       
@@ -387,10 +386,10 @@
                                     <div class="chat-message clearfix">
                                         <form action="" method="post" onsubmit="sendMessage(event)">
                                           <div class="input-group mb-0">
+                                              <input type="text" class="form-control" name="contenu" id="contenu" placeholder="Enter text here..."> 
                                               <button type="submit" class="input-group-prepend border-0">
                                                   <span class="input-group-text"><i class="fa fa-send"></i></span>
-                                              </button>
-                                              <input type="text" class="form-control" name="contenu" id="contenu" placeholder="Enter text here...">                                    
+                                              </button>                                   
                                           </div>
                                         </form>    
                                     </div>
@@ -446,7 +445,7 @@
 <!-- jQuery Knob Chart -->
 <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
-<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/moment/moment-with-locales.min.js"></script>
 <script src="plugins/daterangepicker/daterangepicker.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
@@ -644,46 +643,46 @@
     })
   })
 
-  function getAdmins(){
-      var reqHeaders = new Headers();
-      var saved_token = JSON.parse(localStorage.getItem("_currentUser"))
-      const id_service = new URLSearchParams(window.location.search).get('id_service')
-      console.log(saved_token.token,"saved toke")
-      reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
-      reqHeaders.append("Content-Type","application/json")
+  // function getAdmins(){
+  //     var reqHeaders = new Headers();
+  //     var saved_token = JSON.parse(localStorage.getItem("_currentUser"))
+  //     const id_service = new URLSearchParams(window.location.search).get('id_service')
+  //     console.log(saved_token.token,"saved toke")
+  //     reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
+  //     reqHeaders.append("Content-Type","application/json")
 
-    fetch(`http://localhost:7000/api/v1/services/${id_service}/comments`,{
-        method: "GET",
-        headers: reqHeaders
-    }).then(res => res.json())
-    .then(data => {
-        const main = document.getElementById("plist")
-        const content = document.getElementById("list-content")
+  //   fetch(`http://localhost:7000/api/v1/services/${id_service}/comments`,{
+  //       method: "GET",
+  //       headers: reqHeaders
+  //   }).then(res => res.json())
+  //   .then(data => {
+  //       const main = document.getElementById("plist")
+  //       const content = document.getElementById("list-content")
 
-        if(data.status === "success"){
-          const uniqueIds = new Set();
-          data.comments.forEach(admin =>{
-            if (!uniqueIds.has(admin.id_user)) {
-                uniqueIds.add(admin.id_user);
-                content.innerHTML += ` 
-                            <li class="clearfix">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
-                                <div class="about">
-                                    <div class="name">${admin.User.name || admin.User.email}</div>
-                                    <div class="status"> <i class="fa fa-circle online"></i> online </div>
-                                </div>
-                            </li>
+  //       if(data.status === "success"){
+  //         const uniqueIds = new Set();
+  //         data.comments.forEach(admin =>{
+  //           if (!uniqueIds.has(admin.id_user)) {
+  //               uniqueIds.add(admin.id_user);
+  //               content.innerHTML += ` 
+  //                           <li class="clearfix">
+  //                               <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+  //                               <div class="about">
+  //                                   <div class="name">${admin.User.name || admin.User.email}</div>
+  //                                   <div class="status"> <i class="fa fa-circle online"></i> online </div>
+  //                               </div>
+  //                           </li>
                        
-                            `
+  //                           `
                            
-                  main.appendChild(content)
+  //                 main.appendChild(content)
 
-            }
-                })
+  //           }
+  //               })
               
-              }
-              })
-        }
+  //             }
+  //             })
+  //       }
 
 
         function sendMessage(e){
@@ -746,7 +745,10 @@
                     content.innerHTML += ` 
                     <div class="message-data">
                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                      <span class="message-data-time">${message.createdAt}</span>
+                      <div class="d-flex flex-column">
+                        <span class="message-data-time">${message.User.name || message.User.pseudo}</span>
+                        <span class="message-data-time">${moment(message.createdAt).locale('fr').format('LLL')}</span>
+                      </div>
                     </div>
 
                     <div class="message my-message bg-message-card float-right" id="user-id">
@@ -757,7 +759,10 @@
                     content.innerHTML += ` 
                     <div class="message-data d-flex justify-content-end">
                      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
-                     <span class="message-data-time">${message.createdAt}</span>
+                     <div class="d-flex flex-column">
+                        <span class="message-data-time">${message?.User?.pseudo || message?.User?.name}</span>
+                        <span class="message-data-time">${moment(message.createdAt).locale('fr').format('LLL')}</span>
+                      </div>
                    </div>
 
                     <div class="message other-message bg-message-card float-left" id="user-id">
@@ -786,9 +791,67 @@
           window.location.reload()
         }
 
+        function get_current_user(){
+          const user = JSON.parse(localStorage.getItem("_currentUser"))
+          document.getElementById("email").innerHTML = user.user.email
+         document.getElementById("pseudo").innerHTML = user.user.name || user.user.pseudo
+        }
+
+        function service_details(){
+          var reqHeaders = new Headers();
+          var saved_token = JSON.parse(localStorage.getItem("_currentUser"))
+          console.log(saved_token.token,"saved toke")
+          reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
+          reqHeaders.append("Content-Type","application/json")
+          
+          const urlParams = new URLSearchParams(window.location.search);
+          let id = urlParams.get('id_service');
+          console.log(id,"id");
+
+      fetch(`http://localhost:7000/api/v1/services/${id}`,{
+          method: "GET",
+          headers: reqHeaders
+      }).then(res => res.json())
+      .then(data => {
+          const content = document.getElementById("comment-info")
+          console.log(data,"data")  
+        if(data.status === "success"){
+            console.log(data.services,"data")
+            const ele1 = document.createElement("div");
+            ele1.classList.add("card-header","d-flex","align-items-center","row-cols-lg-5","g-2","g-lg-3")
+
+            ele1.innerHTML = `
+                  <div>
+                      <a href="home" class="small-box-footer" style="color:#18345D;"><i class="fas fa-arrow-circle-left"></i> Retour</a>
+                  </div>
+                
+                  <h1 class="card-title" style="color:#18345D;" id="service-name">${data.services.name}</h1>
+                  <span>
+                      <a class="btn" style="font-size: 30px; width: 150px;">
+                        <i class="far fa-heart" title="notification" style="color:#18345D"></i>
+                        <span class="badge badge-warning navbar-badge"style="background-color:#18345D;color: white;font-weight: bold;" id="like-count">${data.services.likes}</span>
+                      </a>
+                  </span>
+                  <span>
+                      <a class="btn mdc" style="font-size: 30px; width: 150px;">
+                        <i class="far fa-comments" title="notification" style="color:#18345D"></i>
+                        <span class="badge badge-warning navbar-badge" style="background-color:red;color: white;font-weight: bold;" id="comment-count">${data.services.commentsCount}</span>
+                      </a>
+                  </span>`
+            content.appendChild(ele1)
+        }
+        // content.appendChild(ele1)
+    })
+}
+
+
+
        window.addEventListener("DOMContentLoaded",()=>{
-        getAdmins()
-        getMessages()})
+        // getAdmins()
+        getMessages()
+        get_current_user()
+        service_details()
+        })
 </script>
 </body>
 </html>

@@ -64,7 +64,7 @@ details[open] summary ~ * {
             method : 'GET',
             headers : reqHeaders,
           }
-          fetch("https://jess-backend.onrender.com/api/v1/auth/users",reqOptions) //renseigne toi sur le lien pour recuperer les informations d'un utlisateur donne par son token
+          fetch("http://localhost:7000/api/v1/auth/users",reqOptions) //renseigne toi sur le lien pour recuperer les informations d'un utlisateur donne par son token
           .then(res=>reponse = res.json())
           .then(result=>{
             // result['name'] = 'Eze Josue Jess' //ligne a supprimer apres comprehension
@@ -358,7 +358,7 @@ details[open] summary ~ * {
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
    
-  fetch("https://jess-backend.onrender.com/api/v1/auth/users", {
+  fetch("http://localhost:7000/api/v1/auth/users_all", {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -384,7 +384,7 @@ details[open] summary ~ * {
   reqHeaders.append("Authorization",`Bearer ${saved_token.token}`) 
   reqHeaders.append("Content-Type","application/json")
    
-  fetch("https://jess-backend.onrender.com/api/v1/demandes/services/available", {
+  fetch("http://localhost:7000/api/v1/demandes/services/available", {
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -394,7 +394,8 @@ details[open] summary ~ * {
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   }).then(res => res.json()).then(data => {
     if (data.status === "success") {
-      document.getElementById("commandes").innerHTML = data.demandes.length
+      console.log("Total services ",typeof data.demandes.length)
+      document.getElementById("commandes").innerHTML = data.demandes.length 
     }
        
   }).catch(err => {
